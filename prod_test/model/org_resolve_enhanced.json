@@ -1,0 +1,390 @@
+{
+    "link_type": "link_only",
+    "probability_two_random_records_match": 1.1815985318960526e-05,
+    "retain_matching_columns": true,
+    "retain_intermediate_calculation_columns": true,
+    "additional_columns_to_retain": [],
+    "sql_dialect": "duckdb",
+    "linker_uid": "m1rrhbj6",
+    "em_convergence": 0.0001,
+    "max_iterations": 25,
+    "bayes_factor_column_prefix": "bf_",
+    "term_frequency_adjustment_column_prefix": "tf_",
+    "comparison_vector_value_column_prefix": "gamma_",
+    "unique_id_column_name": "unique_id",
+    "source_dataset_column_name": "source_dataset",
+    "blocking_rules_to_generate_predictions": [
+        {
+            "blocking_rule": "l.\"grid\" = r.\"grid\"",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "l.\"ror\" = r.\"ror\"",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "l.ror = r.ror and l.ror is not null",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "l.grid = r.grid and l.grid is not null",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "(SUBSTRING(l.name, 1, 4) = SUBSTRING(r.name, 1, 4)) AND (l.\"country\" = r.\"country\")",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "(SUBSTRING(l.name, 1, 6) = SUBSTRING(r.name, 1, 6)) AND (l.\"types\" = r.\"types\")",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "l.\"name\" = r.\"name\"",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "(l.\"rarest_tokens\" = r.\"rarest_tokens\") AND (l.\"country\" = r.\"country\")",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "(l.\"longest_tokens\" = r.\"longest_tokens\") AND (l.\"types\" = r.\"types\")",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "l.rarest_tokens[1] = r.rarest_tokens[2] and substr(l.name,1,3) = substr(r.name,1,3)",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "l.rarest_tokens[2] = r.rarest_tokens[1] and substr(l.name,1,3) = substr(r.name,1,3)",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "jaro_winkler_similarity(l.name, r.name) >= 0.9 and l.country = r.country",
+            "sql_dialect": "duckdb"
+        },
+        {
+            "blocking_rule": "l.city = r.city and l.country = r.country and substr(l.name,1,4) = substr(r.name,1,4)",
+            "sql_dialect": "duckdb"
+        }
+    ],
+    "comparisons": [
+        {
+            "output_column_name": "grid",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"grid_l\" IS NULL OR \"grid_r\" IS NULL",
+                    "label_for_charts": "grid is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"grid_l\" = \"grid_r\"",
+                    "label_for_charts": "Exact match on grid",
+                    "m_probability": 0.8754488943789167,
+                    "u_probability": 1.2305012872936544e-05,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.12455110562108324,
+                    "u_probability": 0.999987694987127,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "ExactMatch"
+        },
+        {
+            "output_column_name": "ror",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"ror_l\" IS NULL OR \"ror_r\" IS NULL",
+                    "label_for_charts": "ror is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"ror_l\" = \"ror_r\"",
+                    "label_for_charts": "Exact match on ror",
+                    "m_probability": 0.9785842741312165,
+                    "u_probability": 1.4127977743001218e-05,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.1056903172582001,
+                    "u_probability": 0.999985872022257,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "ExactMatch"
+        },
+        {
+            "output_column_name": "name",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"name_l\" IS NULL OR \"name_r\" IS NULL",
+                    "label_for_charts": "name is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"name_l\" = \"name_r\"",
+                    "label_for_charts": "Exact match on name",
+                    "m_probability": 0.282738886221419,
+                    "u_probability": 2.7449644101166138e-05,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "tf_adjustment_column": "name",
+                    "tf_adjustment_weight": 1.0
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"name_l\", \"name_r\") >= 0.95",
+                    "label_for_charts": "Jaro-Winkler distance of name >= 0.95",
+                    "m_probability": 0.00684379797174294,
+                    "u_probability": 1.893078903528699e-06,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"name_l\", \"name_r\") >= 0.85",
+                    "label_for_charts": "Jaro-Winkler distance of name >= 0.85",
+                    "m_probability": 0.06452449193728504,
+                    "u_probability": 0.00021770407390580039,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"name_l\", \"name_r\") >= 0.75",
+                    "label_for_charts": "Jaro-Winkler distance of name >= 0.75",
+                    "m_probability": 0.04411181355871119,
+                    "u_probability": 0.0011822277752536726,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"name_l\", \"name_r\") >= 0.65",
+                    "label_for_charts": "Jaro-Winkler distance of name >= 0.65",
+                    "m_probability": 0.07009323962551567,
+                    "u_probability": 0.010349462365591398,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.5330832685942128,
+                    "u_probability": 0.9882212630622444,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "JaroWinklerAtThresholds"
+        },
+        {
+            "output_column_name": "types",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"types_l\" IS NULL OR \"types_r\" IS NULL",
+                    "label_for_charts": "types is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"types_l\" = \"types_r\"",
+                    "label_for_charts": "Exact match on types",
+                    "m_probability": 0.9998862482745139,
+                    "u_probability": 0.17112202786612146,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "tf_adjustment_column": "types",
+                    "tf_adjustment_weight": 1.0
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.003858379948187851,
+                    "u_probability": 0.8288779721338786,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "ExactMatch"
+        },
+        {
+            "output_column_name": "country",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"country_l\" IS NULL OR \"country_r\" IS NULL",
+                    "label_for_charts": "country is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"country_l\" = \"country_r\"",
+                    "label_for_charts": "Exact match on country",
+                    "m_probability": 1.0,
+                    "u_probability": 0.10165360442223231,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.03027978089140677,
+                    "u_probability": 0.8983463955777676,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "ExactMatch"
+        },
+        {
+            "output_column_name": "city",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"city_l\" IS NULL OR \"city_r\" IS NULL",
+                    "label_for_charts": "city is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"city_l\" = \"city_r\"",
+                    "label_for_charts": "Exact match on city",
+                    "m_probability": 0.9234935966517404,
+                    "u_probability": 0.0018542707860063608,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "tf_adjustment_column": "city",
+                    "tf_adjustment_weight": 1.0
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.07650640334825957,
+                    "u_probability": 0.9981457292139937,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "ExactMatch"
+        },
+        {
+            "output_column_name": "name_tokens_with_freq",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"name_tokens_with_freq_l\" IS NULL OR \"name_tokens_with_freq_r\" IS NULL",
+                    "label_for_charts": "name_tokens_with_freq is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\n    COALESCE(\n        LEAST(\n            1.0::FLOAT,\n            GREATEST(\n                (\n                    list_intersect(name_tokens_with_freq_l, name_tokens_with_freq_r)\n                        .list_transform(x -> GREATEST(x.rel_freq::float, 1e-10))\n                        .list_concat([1.0::FLOAT])  -- ensures reduce has at least one value\n                        .list_reduce((p, q) -> p * q)\n                )::FLOAT,\n                1e-40::FLOAT\n            )\n        ),\n        1.0::FLOAT\n    )\n     < 1e-15",
+                    "label_for_charts": "Ultra-rare token intersection (< 1e-15)",
+                    "m_probability": 0.919469656838525,
+                    "u_probability": 3.880811752233833e-05,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "\n    COALESCE(\n        LEAST(\n            1.0::FLOAT,\n            GREATEST(\n                (\n                    list_intersect(name_tokens_with_freq_l, name_tokens_with_freq_r)\n                        .list_transform(x -> GREATEST(x.rel_freq::float, 1e-10))\n                        .list_concat([1.0::FLOAT])  -- ensures reduce has at least one value\n                        .list_reduce((p, q) -> p * q)\n                )::FLOAT,\n                1e-40::FLOAT\n            )\n        ),\n        1.0::FLOAT\n    )\n     < 1e-12",
+                    "label_for_charts": "Very rare token intersection (< 1e-12)",
+                    "m_probability": 0.0388317084855358,
+                    "u_probability": 2.8396183552930485e-05,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "\n    COALESCE(\n        LEAST(\n            1.0::FLOAT,\n            GREATEST(\n                (\n                    list_intersect(name_tokens_with_freq_l, name_tokens_with_freq_r)\n                        .list_transform(x -> GREATEST(x.rel_freq::float, 1e-10))\n                        .list_concat([1.0::FLOAT])  -- ensures reduce has at least one value\n                        .list_reduce((p, q) -> p * q)\n                )::FLOAT,\n                1e-40::FLOAT\n            )\n        ),\n        1.0::FLOAT\n    )\n     < 1e-10",
+                    "label_for_charts": "Rare token intersection (< 1e-10)",
+                    "m_probability": 0.016343577144325307,
+                    "u_probability": 8.708162956232015e-05,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "\n    COALESCE(\n        LEAST(\n            1.0::FLOAT,\n            GREATEST(\n                (\n                    list_intersect(name_tokens_with_freq_l, name_tokens_with_freq_r)\n                        .list_transform(x -> GREATEST(x.rel_freq::float, 1e-10))\n                        .list_concat([1.0::FLOAT])  -- ensures reduce has at least one value\n                        .list_reduce((p, q) -> p * q)\n                )::FLOAT,\n                1e-40::FLOAT\n            )\n        ),\n        1.0::FLOAT\n    )\n     < 1e-8",
+                    "label_for_charts": "Moderately rare tokens (< 1e-8)",
+                    "m_probability": 0.013775376619669903,
+                    "u_probability": 0.0003918673330304407,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "\n    COALESCE(\n        LEAST(\n            1.0::FLOAT,\n            GREATEST(\n                (\n                    list_intersect(name_tokens_with_freq_l, name_tokens_with_freq_r)\n                        .list_transform(x -> GREATEST(x.rel_freq::float, 1e-10))\n                        .list_concat([1.0::FLOAT])  -- ensures reduce has at least one value\n                        .list_reduce((p, q) -> p * q)\n                )::FLOAT,\n                1e-40::FLOAT\n            )\n        ),\n        1.0::FLOAT\n    )\n     < 1e-6",
+                    "label_for_charts": "Somewhat rare tokens (< 1e-6)",
+                    "m_probability": 0.003557880946387669,
+                    "u_probability": 0.0013923595335453582,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "\n    COALESCE(\n        LEAST(\n            1.0::FLOAT,\n            GREATEST(\n                (\n                    list_intersect(name_tokens_with_freq_l, name_tokens_with_freq_r)\n                        .list_transform(x -> GREATEST(x.rel_freq::float, 1e-10))\n                        .list_concat([1.0::FLOAT])  -- ensures reduce has at least one value\n                        .list_reduce((p, q) -> p * q)\n                )::FLOAT,\n                1e-40::FLOAT\n            )\n        ),\n        1.0::FLOAT\n    )\n     < 1e-4",
+                    "label_for_charts": "Common tokens (< 1e-4)",
+                    "m_probability": 0.000740125218565644,
+                    "u_probability": 0.01152317128577919,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "Very common or no shared tokens",
+                    "m_probability": 2.0141660007123967e-06,
+                    "u_probability": 0.9865383159170075,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "CustomComparison"
+        },
+        {
+            "output_column_name": "token_count",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"token_count_l\" IS NULL OR \"token_count_r\" IS NULL",
+                    "label_for_charts": "token_count is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"token_count_l\" = \"token_count_r\"",
+                    "label_for_charts": "Exact token count match",
+                    "m_probability": 0.6786731465834697,
+                    "u_probability": 0.04695592912312585,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ABS(\"token_count_l\" - \"token_count_r\") <= 1",
+                    "label_for_charts": "Token count diff \u2264 1",
+                    "m_probability": 2.535963365254996e-06,
+                    "u_probability": 0.027888838406784796,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "Token count diff > 1",
+                    "m_probability": 0.3213258604605673,
+                    "u_probability": 0.9251552324700894,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "CustomComparison"
+        }
+    ]
+}
